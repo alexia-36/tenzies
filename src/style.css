@@ -35,8 +35,13 @@ main {
 .title {
   color: #133b54;
   margin-top: -2rem;
-  margin-bottom: 4rem;
+  margin-bottom: 1rem;
   font-size: 2.7rem;
+}
+
+.timeTitle {
+  color: #204b66;
+  margin-top: 2rem;
 }
 
 .rubik-bubbles-regular {

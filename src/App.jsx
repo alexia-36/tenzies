@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./style.css";
 import Die from "./Die";
 import { nanoid } from "nanoid";
@@ -36,8 +36,14 @@ function App() {
       prevValue.map((dice) =>
         dice.id === id ? { ...dice, isHeld: !dice.isHeld } : dice
       )
-    );
-  } //returnam un array care are casuta apasata actualizata (schimba proprietatea held)
+    ); //returnam un array care are casuta apasata actualizata (schimba proprietatea held)
+    if (!isRunning) {
+      setIsRunning(true);
+      intervalRef.current = setInterval(() => {
+        setTime((prevValue) => prevValue + 1);
+      }, 1000);
+    }
+  }
 
   function mixDices() {
     if (!gameWon) {
@@ -48,6 +54,7 @@ function App() {
       ); //returnam un array in care casutelor cu proprietatea isHeld false(adica nu au fost apasate), li se vor schimba proprietatea value
     } else {
       setDices(getDices());
+      setTime(0);
     }
   }
 
@@ -55,10 +62,23 @@ function App() {
     dices.every((dice) => dice.isHeld) &&
     dices.every((dice) => dice.value === dices[1].value);
 
+  //partea pentru cronometru
+  const [time, setTime] = useState(0); //retine timpul
+  const intervalRef = useRef(null); //retine id-ul intervalului, necesar ca sa putem opri cronometrul
+  const [isRunning, setIsRunning] = useState(false); // datorita lui in functia mixDices se porneste doar o data cronometrul
+
+  useEffect(() => {
+    if (gameWon) {
+      clearInterval(intervalRef.current); //opreste cronometrul
+      setIsRunning(false);
+    }
+  }, [gameWon]);
+
   return (
     <main>
       <h1 className="title rubik-bubbles-regular">Tenzies</h1>
 
+      <h2 className="timeTitle rubik-bubbles-regular">Time: {time} </h2>
       {gameWon && <Confetti width="1500vh" />}
       <div className="containerDices">{diceComponents}</div>
       <button className="roll" onClick={mixDices}>
