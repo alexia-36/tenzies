@@ -1,7 +1,7 @@
 import React from "react";
 export default function Die(props) {
   const styles = {
-    background: props.isHeld ? "cadetblue" : "white",
+    background: props.isHeld ? "rgb(255, 179, 0)" : "white",
   };
   return (
     <button

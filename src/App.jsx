@@ -77,6 +77,9 @@ function App() {
   return (
     <main>
       <h1 className="title rubik-bubbles-regular">Tenzies</h1>
+      <p className="descriptions rubik-bubbles-regular ">
+        🔆Select the same numbers 🔆
+      </p>
 
       <h2 className="timeTitle rubik-bubbles-regular">Time: {time} </h2>
       {gameWon && <Confetti width="1500vh" />}
